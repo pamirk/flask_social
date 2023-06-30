@@ -1,6 +1,13 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
-from wtforms.validators import DataRequired, Regexp, Email, Length, EqualTo
+from wtforms.validators import DataRequired, Regexp, Email, Length, EqualTo, ValidationError
+
+from models import User
+
+
+def name_exists(form, field):
+    if User.select().where(User.username == field.data).exists():
+        raise ValidationError('User with that name already exists.')
 
 
 class RegisterForm(FlaskForm):
@@ -13,6 +20,7 @@ class RegisterForm(FlaskForm):
                 message=("Username should be one word, letters, "
                          "numbers, and underscores only.")
             ),
+            name_exists
         ])
     email = StringField(
         'Email',
