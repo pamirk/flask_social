@@ -10,7 +10,7 @@ PORT = 8000
 HOST = '0.0.0.0'
 
 app = Flask(__name__)
-app.secret_key = 'dsdssh.bouoastwuh.4343>?*;:s,wddsds!'
+app.secret_key = app.config['SECRET_KEY']
 
 login_manager = LoginManager()
 login_manager.init_app(app)
